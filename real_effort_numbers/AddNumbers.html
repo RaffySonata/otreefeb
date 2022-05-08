@@ -1,0 +1,42 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Please add the numbers
+{% endblock %}
+
+
+{% block content %}
+    Selesaikan 10 soal di bawah ini. Tulis jawaban Anda dalam 2 angka desimal. Anda dibolehkan menggunakan alat seperti kalkulator untuk membantu Anda.
+    <br>
+    <br>
+    {{ num1 }} * {{ num2 }} + {{ num3 }}  =  <br>
+    {{ form.number_entered1 }}
+    {{ num4 }} * {{ num5 }} - {{ num6 }}  =  <br>
+    {{ form.number_entered2 }}
+    {{ num7 }} / {{ num8 }} + {{ num9 }}  =  <br>
+    {{ form.number_entered3 }}
+    {{ num10 }} / {{ num11 }} - {{ num12 }}  =  <br>
+    {{ form.number_entered4 }}
+    {{ num13 }} * {{ num14 }} + {{ num15 }}  =  <br>
+    {{ form.number_entered5 }}
+    {{ num16 }} * {{ num17 }} - {{ num18 }}  =  <br>
+    {{ form.number_entered6 }}
+    {{ num19 }} / {{ num20 }} + {{ num21 }}  =  <br>
+    {{ form.number_entered7 }}
+    {{ num22 }} / {{ num23 }} - {{ num24 }}  =  <br>
+    {{ form.number_entered8 }}
+    {{ num25 }} * {{ num26 }} + {{ num27 }}  =  <br>
+    {{ form.number_entered9 }}
+    {{ num28 }} / {{ num29 }} + {{ num30 }}  =  <br>
+    {{ form.number_entered10 }}
+    <br>
+    <br>
+Anda harus menekan tombol ‘KONFIRMASI’ untuk dapat masuk ke halaman berikutnya.
+    Poin yang Anda dapatkan dari ronde ini akan diinformasikan di halaman berikutnya.
+    <br>
+    <br>
+
+    <button class="otree-btn-next btn btn-primary next-button otree-next-button">Konfirmasi</button>
+
+{% endblock %}
