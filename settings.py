@@ -1,26 +1,42 @@
 from os import environ
 
 SESSION_CONFIGS = [
-     dict(
-         name='real_effort_numbers',
-         app_sequence=['real_effort_numbers'],
-         num_demo_participants=1,
-     ),
     dict(
-         name='count_words',
-         app_sequence=['count_words'],
-         num_demo_participants=1,
-     ),
-    dict(
-         name='Collective_Action_Test',
-         app_sequence=['survey', 'real_effort_numbers', 'count_words'],
-         num_demo_participants=1,
-     ),
-    dict(
-        name='Welcome',
-        app_sequence=['survey'],
+        name="real_effort_numbers",
+        display_name="Operasi Angka",
         num_demo_participants=1,
-    )
+        app_sequence=["real_effort_numbers"],
+    ),
+    dict(
+        name="real_effort",
+        display_name="Penguraian Kode",
+        num_demo_participants=1,
+        app_sequence=["real_effort"],
+    ),
+    dict(
+        name="survey",
+        display_name="Instruksi",
+        num_demo_participants=1,
+        app_sequence=["survey"],
+    ),
+    dict(
+        name="token_random",
+        display_name="Token random",
+        num_demo_participants=1,
+        app_sequence=["token_random"],
+    ),
+    dict(
+        name="Collective_Action",
+        display_name="Collective_Action",
+        num_demo_participants=1,
+        app_sequence=["survey", "real_effort_numbers", "real_effort", "token_random"],
+    ),
+    dict(
+        name="Collective_Action_No_Phone",
+        display_name="Collective_Action_No_Phone",
+        num_demo_participants=1,
+        app_sequence=["detect_mobile", "survey", "real_effort_numbers", "real_effort", "token_random"],
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -32,21 +48,75 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = []
-SESSION_FIELDS = []
+PARTICIPANT_FIELDS = ['is_dropout']
+SESSION_FIELDS = ['params']
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = "en"
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = 'USD'
+REAL_WORLD_CURRENCY_CODE = "USD"
 USE_POINTS = True
 
-ADMIN_USERNAME = 'admin'
+ADMIN_USERNAME = "admin"
 # for security, best to set admin password in an environment variable
-ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
+ADMIN_PASSWORD = environ.get("OTREE_ADMIN_PASSWORD")
 
-DEMO_PAGE_INTRO_HTML = """ """
+DEMO_PAGE_TITLE = "Real-effort tasks"
+DEMO_PAGE_INTRO_HTML = """
+Real-effort tasks (transcription, decoding, matrix, sliders, etc) 
+"""
 
-SECRET_KEY = '3170777934544'
+SECRET_KEY = "2015765205890"
+
+# adjustments for testing
+# generating session configs for all varieties of features
+import sys
+
+
+if sys.argv[1] == 'test':
+    MAX_ITERATIONS = 5
+    FREEZE_TIME = 0.1
+    TRIAL_PAUSE = 0.2
+    TRIAL_TIMEOUT = 0.3
+
+    SESSION_CONFIGS = [
+        dict(
+            name=f"testing_sliders",
+            num_demo_participants=1,
+            app_sequence=['sliders'],
+            trial_delay=TRIAL_PAUSE,
+            retry_delay=FREEZE_TIME,
+            num_sliders=3,
+            attempts_per_slider=3,
+        ),
+    ]
+    for task in ['decoding', 'matrix', 'transcription']:
+        SESSION_CONFIGS.extend(
+            [
+                dict(
+                    name=f"testing_{task}_defaults",
+                    num_demo_participants=1,
+                    app_sequence=['real_effort'],
+                    puzzle_delay=TRIAL_PAUSE,
+                    retry_delay=FREEZE_TIME,
+                ),
+                dict(
+                    name=f"testing_{task}_retrying",
+                    num_demo_participants=1,
+                    app_sequence=['real_effort'],
+                    puzzle_delay=TRIAL_PAUSE,
+                    retry_delay=FREEZE_TIME,
+                    attempts_per_puzzle=5,
+                ),
+                dict(
+                    name=f"testing_{task}_limited",
+                    num_demo_participants=1,
+                    app_sequence=['real_effort'],
+                    puzzle_delay=TRIAL_PAUSE,
+                    retry_delay=FREEZE_TIME,
+                    max_iterations=MAX_ITERATIONS,
+                ),
+            ]
+        )

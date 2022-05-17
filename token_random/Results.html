@@ -1,0 +1,14 @@
+{{ block title }}
+    Page title
+{{ endblock }}
+
+{% block content %}
+    You entered the number {{ player.number_entered }},
+    the factor was {{ Constants.factor }},
+    the result was {{ result }}
+
+
+    {{ next_button }}
+{% endblock %}
+
+

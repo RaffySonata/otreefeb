@@ -2,11 +2,15 @@
 {% load otree static %}
 
 {% block title %}
-    Results
+    Hasil
 {% endblock %}
 
 {% block content %}
-    Your payoff is {{ player.payoff }}.
+    {% if player.sum_of_of_numbers1 == player.number_entered1 %}
+    Jawaban Anda benar
+    {% else %}
+    Jawaban Anda Salah
+    {% endif %}
     <button class="otree-btn-next btn btn-primary next-button otree-next-button">Lanjut</button>
 {% endblock %}
 

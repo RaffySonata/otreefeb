@@ -1,0 +1,33 @@
+{{ block title }}
+Penggunaan laptop dalam eksperimen
+{{ endblock }}
+{{ block content }}
+
+<input type="hidden" name="is_mobile" id="is_mobile">
+
+<p>Mohon untuk menggunakan laptop saat melakukan eksperimen, dan untuk tidak menggunakan hp atau tablet.
+    Jika Anda menggunakan hp atau tablet maka Anda tidak dapat melanjutkan eksperimen.</p>
+
+<button class="otree-btn-next btn btn-primary next-button otree-next-button">Selanjutnya</button>
+
+<script>
+    function isMobile() {
+        const toMatch = [
+            /Android/i,
+            /iPhone/i,
+            /iPad/i,
+        ];
+
+        return toMatch.some((item) => navigator.userAgent.match(item));
+    }
+
+    // here is an alternative technique that checks screen resolution
+    // function isMobile() {
+    //     return ((window.innerWidth <= 800) && (window.innerHeight <= 600));
+    // }
+
+    document.getElementById('is_mobile').value = isMobile() ? 1 : 0;
+
+</script>
+
+{{ endblock }}

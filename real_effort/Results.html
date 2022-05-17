@@ -1,0 +1,13 @@
+{{ block title }}
+Hasil
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    Anda telah mengerjakan {{ player.num_trials }} soal. <br>
+    Jawaban benar = {{ player.num_correct }} soal <br>
+    Jawbaban salah = {{ player.num_failed }} soal <br>
+</p>
+<button class="otree-btn-next btn btn-primary next-button otree-next-button">Lanjut</button>
+{{ endblock }}

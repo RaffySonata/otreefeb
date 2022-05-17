@@ -2,11 +2,15 @@
 {% load otree static %}
 
 {% block title %}
-    Results
+    Hasil
 {% endblock %}
 
 {% block content %}
-    Your combined payoff is {{ combined_payoff }}.
+    {% if combined_payoff == 10 %}
+    Anda berhasil menjawab 10 soal dengan benar maka Anda mendapatkan {{ combined_payoff }} poin.
+        {% else %}
+        Anda tidak berhasil menjawab 10 soal dengan benar maka Anda mendapatkan 0 poin
+    {% endif %}
     <br>
     <br>
     Tekan tombol ‘LANJUT’ untuk menuju ke ronde selanjutnya.
