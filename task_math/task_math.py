@@ -54,7 +54,7 @@ def generate_puzzle_fields():
 
 
 def is_correct(response, puzzle):
-    return puzzle.solution == response
+    return float(puzzle.solution) == float(response)
 
 def render_image(puzzle):
     text = puzzle.text

@@ -92,7 +92,7 @@ if sys.argv[1] == 'test':
             attempts_per_slider=3,
         ),
     ]
-    for task in ['decoding', 'matrix', 'transcription']:
+    for task in ['decoding', 'matrix', 'transcription', 'task_math']:
         SESSION_CONFIGS.extend(
             [
                 dict(

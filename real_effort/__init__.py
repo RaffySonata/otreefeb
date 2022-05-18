@@ -46,7 +46,7 @@ class Subsession(BaseSubsession):
 def creating_session(subsession: Subsession):
     session = subsession.session
     defaults = dict(
-        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=10, max_iterations=5
+        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=10, max_iterations=10
     )
     session.params = {}
     for param in defaults:
