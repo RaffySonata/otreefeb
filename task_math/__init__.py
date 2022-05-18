@@ -16,7 +16,7 @@ def get_task_module(player):
     This function is only needed for demo mode, to demonstrate all the different versions.
     You can simplify it if you want.
     """
-    from . import task_matrix, task_transcription, task_decoding
+    from . import task_matrix, task_transcription, task_decoding, task_math
 
     session = player.session
     task = session.config.get("task")
@@ -26,12 +26,14 @@ def get_task_module(player):
         return task_transcription
     if task == "decoding":
         return task_decoding
+    if task == "math":
+        return task_math
     # default
-    return task_decoding
+    return task_math
 
 
 class Constants(BaseConstants):
-    name_in_url = "transcription"
+    name_in_url = "transcription_copy"
     players_per_group = None
     num_rounds = 2
 
@@ -46,7 +48,7 @@ class Subsession(BaseSubsession):
 def creating_session(subsession: Subsession):
     session = subsession.session
     defaults = dict(
-        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=10, max_iterations=5
+        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=10, max_iterations=10
     )
     session.params = {}
     for param in defaults:

@@ -28,7 +28,7 @@ class MobileCheck(Page):
 
     def error_message(player: Player, values):
         if values['is_mobile']:
-            return "Sorry, this experiment does not allow mobile browsers."
+            return "Maaf, eksperimen ini hanya bisa dilakukan di laptop."
 
 
 class Task(Page):

@@ -2,10 +2,10 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name="real_effort_numbers",
+        name="task_math",
         display_name="Operasi Angka",
         num_demo_participants=1,
-        app_sequence=["real_effort_numbers"],
+        app_sequence=["task_math"],
     ),
     dict(
         name="real_effort",
@@ -29,13 +29,13 @@ SESSION_CONFIGS = [
         name="Collective_Action",
         display_name="Collective_Action",
         num_demo_participants=1,
-        app_sequence=["survey", "real_effort_numbers", "real_effort", "token_random"],
+        app_sequence=["survey", "task_math", "real_effort", "token_random"],
     ),
     dict(
         name="Collective_Action_No_Phone",
         display_name="Collective_Action_No_Phone",
         num_demo_participants=1,
-        app_sequence=["detect_mobile", "survey", "real_effort_numbers", "real_effort", "token_random"],
+        app_sequence=["detect_mobile", "survey", "task_math", "real_effort", "token_random"],
     ),
 ]
 
@@ -76,7 +76,7 @@ import sys
 
 
 if sys.argv[1] == 'test':
-    MAX_ITERATIONS = 5
+    MAX_ITERATIONS = 10
     FREEZE_TIME = 0.1
     TRIAL_PAUSE = 0.2
     TRIAL_TIMEOUT = 0.3
@@ -108,7 +108,7 @@ if sys.argv[1] == 'test':
                     app_sequence=['real_effort'],
                     puzzle_delay=TRIAL_PAUSE,
                     retry_delay=FREEZE_TIME,
-                    attempts_per_puzzle=5,
+                    attempts_per_puzzle=MAX_ITERATIONS,
                 ),
                 dict(
                     name=f"testing_{task}_limited",
