@@ -47,12 +47,12 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession: Subsession):
     session = subsession.session
-    defaults = dict(
-        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=10, max_iterations=10
+    template = dict(
+        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=1, max_iterations=None, max_math=10, max_decoding= 5,
     )
     session.params = {}
-    for param in defaults:
-        session.params[param] = session.config.get(param, defaults[param])
+    for param in template:
+        session.params[param] = session.config.get(param, template[param])
 
 
 class Group(BaseGroup):
@@ -177,7 +177,7 @@ def play_game(player: Player, message: dict):
                 raise RuntimeError("trying to skip over unsolved puzzle")
             if now < current.timestamp + params["puzzle_delay"]:
                 raise RuntimeError("retrying too fast")
-            if current.iteration == params['max_iterations']:
+            if player.num_correct == params['max_math']:
                 return {
                     my_id: dict(
                         type='status', progress=get_progress(player), iterations_left=0
@@ -254,10 +254,7 @@ class Game(Page):
                     input_type=task_module.INPUT_TYPE,
                     placeholder=task_module.INPUT_HINT)
 
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        if not timeout_happened and not player.session.params['max_iterations']:
-            raise RuntimeError("malicious page submission")
+
 
 
 class Results(Page):

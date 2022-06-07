@@ -16,7 +16,7 @@ def get_task_module(player):
     This function is only needed for demo mode, to demonstrate all the different versions.
     You can simplify it if you want.
     """
-    from . import task_matrix, task_transcription, task_decoding
+    from . import task_matrix, task_transcription, task_decoding, task_math
 
     session = player.session
     task = session.config.get("task")
@@ -26,13 +26,15 @@ def get_task_module(player):
         return task_transcription
     if task == "decoding":
         return task_decoding
+    if task == "math":
+        return task_math
     # default
-    return task_decoding
+    return task_math
 
 
 class Constants(BaseConstants):
-    name_in_url = "transcription"
-    players_per_group = None
+    name_in_url = "task_math_group"
+    players_per_group = 2
     num_rounds = 2
 
     instructions_template = __name__ + "/instructions.html"
@@ -45,6 +47,7 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession: Subsession):
     session = subsession.session
+    subsession.group_randomly()
     template = dict(
         retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=1, max_iterations=None, max_math=10, max_decoding=5,
     )
@@ -52,9 +55,29 @@ def creating_session(subsession: Subsession):
     for param in template:
         session.params[param] = session.config.get(param, template[param])
 
+#def group_by_arrival_time_method(subsession: Subsession, waiting_players):
+    session = subsession.session
+    import itertools
+
+    # this generates all possible pairs of waiting players
+    # and checks if the group would be valid.
+    #for possible_group in itertools.combinations(waiting_players, 10):
+        # use a set, so that we can easily compare even if order is different
+        # e.g. {1, 2} == {2, 1}
+        #pair_ids = set(p.id_in_subsession for p in possible_group)
+        # if this pair of players has not already been played
+        #if pair_ids not in session.past_groups:
+            # mark this group as used, so we don't repeat it in the next round.
+            #session.past_groups.append(pair_ids)
+            # in this function,
+            # 'return' means we are creating a new group with this selected pair
+        #return possible_group
 
 class Group(BaseGroup):
-    pass
+    iteration = models.IntegerField(initial=0)
+    num_trials = models.IntegerField(initial=0)
+    num_correct = models.IntegerField(initial=0)
+    num_failed = models.IntegerField(initial=0)
 
 
 class Player(BasePlayer):
@@ -175,7 +198,7 @@ def play_game(player: Player, message: dict):
                 raise RuntimeError("trying to skip over unsolved puzzle")
             if now < current.timestamp + params["puzzle_delay"]:
                 raise RuntimeError("retrying too fast")
-            if player.num_correct == params['max_decoding']:
+            if player.num_correct == params['max_math']:
                 return {
                     my_id: dict(
                         type='status', progress=get_progress(player), iterations_left=0
@@ -201,8 +224,10 @@ def play_game(player: Player, message: dict):
             player.num_trials -= 1
             if current.is_correct:
                 player.num_correct -= 1
+                Group.num_correct -= 1
             else:
                 player.num_failed -= 1
+                Group.num_failed -= 1
 
         # check answer
         answer = message["answer"]
@@ -253,8 +278,12 @@ class Game(Page):
                     placeholder=task_module.INPUT_HINT)
 
 
+class ResultsWaitPage(WaitPage):
+    group_by_arrival_time = True
+    body_text = "Waiting to pair you with someone you haven't already played with"
+
 class Results(Page):
     pass
 
 
-page_sequence = [Game, Results]
+page_sequence = [ResultsWaitPage, Game, Results]

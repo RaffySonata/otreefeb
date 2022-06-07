@@ -31,8 +31,8 @@ def get_task_module(player):
 
 
 class Constants(BaseConstants):
-    name_in_url = "transcription"
-    players_per_group = None
+    name_in_url = "transcription2"
+    players_per_group = 2
     num_rounds = 2
 
     instructions_template = __name__ + "/instructions.html"
@@ -54,7 +54,7 @@ def creating_session(subsession: Subsession):
 
 
 class Group(BaseGroup):
-    pass
+    num_correct = models.IntegerField(initial=0)
 
 
 class Player(BasePlayer):
@@ -116,6 +116,7 @@ def get_progress(player: Player):
         num_correct=player.num_correct,
         num_incorrect=player.num_failed,
         iteration=player.iteration,
+        group=Group.num_correct,
     )
 
 

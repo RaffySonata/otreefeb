@@ -8,6 +8,12 @@ SESSION_CONFIGS = [
         app_sequence=["task_math"],
     ),
     dict(
+        name="real_effort2",
+        display_name="Decoding 2",
+        num_demo_participants=4,
+        app_sequence=["real_effort2"],
+    ),
+    dict(
         name="real_effort",
         display_name="Penguraian Kode",
         num_demo_participants=1,
