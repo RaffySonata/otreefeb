@@ -33,8 +33,8 @@ def get_task_module(player):
 
 
 class Constants(BaseConstants):
-    name_in_url = "Math2"
-    players_per_group = 2
+    name_in_url = "math4"
+    players_per_group = 4
     num_rounds = 2
 
     instructions_template = __name__ + "/instructions.html"
@@ -176,7 +176,7 @@ def play_game(player: Player, message: dict):
                 raise RuntimeError("trying to skip over unsolved puzzle")
             if now < current.timestamp + params["puzzle_delay"]:
                 raise RuntimeError("retrying too fast")
-            if player.num_g_correct == params['max_math2'] or player.num_g_correct == params['max_math2'] + 1:
+            if player.num_g_correct == params['max_math4'] or player.num_g_correct == params['max_math4'] + 1 or player.num_g_correct == params['max_math4'] + 2 or player.num_g_correct == params['max_math4'] + 3:
                 return {
                     my_id: dict(
                         type='status', progress=get_progress(player), iterations_left=0

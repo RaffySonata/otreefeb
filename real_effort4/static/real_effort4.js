@@ -155,7 +155,7 @@ function showProgress(data) {
     fields.iter.textContent = data.iteration;
     fields.solved.textContent = data.num_correct;
     fields.failed.textContent = data.num_incorrect;
-    fields.group.textContent = data.num_group;
+    fields.group.textContent = data.group_correct;
 }
 
 function waitMsg(seconds) {

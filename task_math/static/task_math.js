@@ -32,6 +32,7 @@ let fields = {
     iter: document.getElementById('iter-txt'),
     solved: document.getElementById('solved-txt'),
     failed: document.getElementById('failed-txt'),
+    group: document.getElementById('group-txt'),
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -154,6 +155,7 @@ function showProgress(data) {
     fields.iter.textContent = data.iteration;
     fields.solved.textContent = data.num_correct;
     fields.failed.textContent = data.num_incorrect;
+    fields.group.textContent = data.group_correct;
 }
 
 function waitMsg(seconds) {

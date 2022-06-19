@@ -48,7 +48,7 @@ class Subsession(BaseSubsession):
 def creating_session(subsession: Subsession):
     session = subsession.session
     template = dict(
-        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=1, max_iterations=None, max_math=10, max_decoding= 5,
+        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=1, max_iterations=None, max_math=10, max_math2=20, max_math4=40, max_decoding=5, max_decoding2=10, max_decoding4=20,
     )
     session.params = {}
     for param in template:

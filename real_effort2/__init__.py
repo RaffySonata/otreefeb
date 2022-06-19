@@ -42,16 +42,14 @@ class Constants(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
-
 def creating_session(subsession: Subsession):
     session = subsession.session
     template = dict(
-        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=1, max_iterations=None, max_math=10, max_decoding=5,
+        retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=1, max_iterations=None, max_math=10, max_math2=20, max_math4=40, max_decoding=5, max_decoding2=10, max_decoding4=20,
     )
     session.params = {}
     for param in template:
         session.params[param] = session.config.get(param, template[param])
-
 
 class Group(BaseGroup):
     num_correct = models.IntegerField(initial=0)
@@ -62,7 +60,7 @@ class Player(BasePlayer):
     num_trials = models.IntegerField(initial=0)
     num_correct = models.IntegerField(initial=0)
     num_failed = models.IntegerField(initial=0)
-
+    num_g_correct = models.IntegerField(initial=0)
 
 # puzzle-specific stuff
 
@@ -115,8 +113,8 @@ def get_progress(player: Player):
         num_trials=player.num_trials,
         num_correct=player.num_correct,
         num_incorrect=player.num_failed,
+        group_correct=player.num_g_correct,
         iteration=player.iteration,
-        group=Group.num_correct,
     )
 
 
@@ -176,7 +174,7 @@ def play_game(player: Player, message: dict):
                 raise RuntimeError("trying to skip over unsolved puzzle")
             if now < current.timestamp + params["puzzle_delay"]:
                 raise RuntimeError("retrying too fast")
-            if player.num_correct == params['max_decoding']:
+            if player.num_g_correct == params['max_decoding2'] or player.num_g_correct == params['max_decoding2'] + 1:
                 return {
                     my_id: dict(
                         type='status', progress=get_progress(player), iterations_left=0
@@ -222,6 +220,10 @@ def play_game(player: Player, message: dict):
         else:
             player.num_failed += 1
         player.num_trials += 1
+        group = player.group
+        players = group.get_players()
+        player.num_g_correct = sum([p.num_correct for p in players])
+
 
         retries_left = params["attempts_per_puzzle"] - current.attempts
         p = get_progress(player)
@@ -235,6 +237,7 @@ def play_game(player: Player, message: dict):
         }
 
     raise RuntimeError("unrecognized message from client")
+
 
 
 class Game(Page):
@@ -253,9 +256,17 @@ class Game(Page):
                     input_type=task_module.INPUT_TYPE,
                     placeholder=task_module.INPUT_HINT)
 
+class ResultsWaitPage(WaitPage):
+    @staticmethod
+    def after_all_players_arrive(group: Group):
+        players = group.get_players()
+        group.num_correct = sum([p.num_correct for p in players])
+
+class WaitPage1(WaitPage):
+    pass
 
 class Results(Page):
     pass
 
 
-page_sequence = [Game, Results]
+page_sequence = [WaitPage1, Game, ResultsWaitPage, Results]

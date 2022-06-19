@@ -12,7 +12,7 @@ Penguraian Kode
         Soal ke <span id="iter-txt"></span>
     </h3>
     <p>Jawaban Benar: <span id="solved-txt"></span>. Jawaban Salah: <span id="failed-txt"></span>.</p> <br>
-    <p>Jawaban Benar Group: <span id="solved-txt2"></span></p>
+    <p>Jawaban Benar Group: <span id="group-txt"></span></p>
     <img class="captcha m-1" id="captcha-img">
 
     <div class="input-group m-1">
@@ -34,6 +34,6 @@ Penguraian Kode
 {{ endblock }}
 
 {{ block scripts }}
-<script src="{{ static 'real_effort.js' }}"></script>
+<script src="{{ static 'math3.js' }}"></script>
 {{ if DEBUG }}<script src="{{ static 'real_effort_cheating.js' }}"></script>{{ endif }}
 {{ endblock }}

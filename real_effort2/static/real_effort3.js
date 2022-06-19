@@ -32,7 +32,7 @@ let fields = {
     iter: document.getElementById('iter-txt'),
     solved: document.getElementById('solved-txt'),
     failed: document.getElementById('failed-txt'),
-    solvedGroup: document.getElementById('solved-txt2'),
+    group: document.getElementById('group-txt'),
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -102,6 +102,7 @@ function resetPuzzle() {
     // a trick to avoid image collapsing/blinking
     image.width = image.width;
     image.height = image.height;
+
     image.src = "";
 }
 
@@ -154,6 +155,7 @@ function showProgress(data) {
     fields.iter.textContent = data.iteration;
     fields.solved.textContent = data.num_correct;
     fields.failed.textContent = data.num_incorrect;
+    fields.group.textContent = data.group_correct;
 }
 
 function waitMsg(seconds) {

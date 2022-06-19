@@ -54,7 +54,12 @@ def generate_puzzle_fields():
 
 
 def is_correct(response, puzzle):
-    return float(puzzle.solution) == float(response)
+    try:
+        float(response)
+        return float(puzzle.solution) == float(response)
+    except ValueError:
+        return False
+
 
 def render_image(puzzle):
     text = puzzle.text
