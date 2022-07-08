@@ -38,6 +38,12 @@ SESSION_CONFIGS = [
         app_sequence=["real_effort4"],
     ),
     dict(
+        name="random",
+        display_name="random",
+        num_demo_participants=1,
+        app_sequence=["token_random"],
+    ),
+    dict(
         name="Collective_Action",
         display_name="Collective_Action",
         num_demo_participants=1,

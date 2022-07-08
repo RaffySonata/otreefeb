@@ -10,7 +10,7 @@ DIGITS = tuple('0123456789')
 WORD_LENGTH = 5
 
 INPUT_TYPE = "text"
-INPUT_HINT = "enter text decoded from the number"
+INPUT_HINT = "masukkan jawaban yang tepat"
 
 
 def generate_puzzle_fields():

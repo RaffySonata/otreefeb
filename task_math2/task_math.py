@@ -17,7 +17,7 @@ TEXT_SIZE = 32
 TEXT_PADDING = TEXT_SIZE
 TEXT_FONT = Path(__file__).parent / "assets" / "FreeSerifBold.otf"
 INPUT_TYPE = "text"
-INPUT_HINT = "enter text decoded from the number"
+INPUT_HINT = "masukkan jawaban yang tepat"
 
 
 def generate_puzzle_fields():
