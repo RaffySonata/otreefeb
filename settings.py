@@ -1,5 +1,6 @@
 from os import environ
 
+
 SESSION_CONFIGS = [
     dict(
         name="task_math",
@@ -44,10 +45,16 @@ SESSION_CONFIGS = [
         app_sequence=["token_random"],
     ),
     dict(
+        name="pay_random",
+        display_name="pay_random",
+        num_demo_participants=1,
+        app_sequence=["task_math", "real_effort", "token_random"],
+    ),
+    dict(
         name="Collective_Action",
         display_name="Collective_Action",
-        num_demo_participants=1,
-        app_sequence=["survey", "task_math", "real_effort", "token_random"],
+        num_demo_participants=4,
+        app_sequence=["survey", "task_math", "real_effort", "task_math2", "real_effort2", "task_math4", "real_effort4", "token_random"],
     ),
     dict(
         name="Collective_Action_No_Phone",
@@ -66,7 +73,21 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['is_dropout']
+PARTICIPANT_FIELDS = ['is_dropout',
+                      'app_payoffs',
+                      'expiry',
+                      'finished_rounds',
+                      'language',
+                      'num_rounds',
+                      'partner_history',
+                      'past_group_id',
+                      'progress',
+                      'quiz_num_correct',
+                      'selected_round',
+                      'task_rounds',
+                      'time_pressure',
+                      'wait_page_arrival',
+                      ]
 SESSION_FIELDS = ['params']
 
 # ISO-639 code
@@ -74,7 +95,7 @@ SESSION_FIELDS = ['params']
 LANGUAGE_CODE = "en"
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = "USD"
+REAL_WORLD_CURRENCY_CODE = "Rp"
 USE_POINTS = True
 
 ADMIN_USERNAME = "admin"

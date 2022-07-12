@@ -33,7 +33,7 @@ def get_task_module(player):
 class Constants(BaseConstants):
     name_in_url = "transcription4"
     players_per_group = 4
-    num_rounds = 2
+    num_rounds = 1
 
     instructions_template = __name__ + "/instructions.html"
     captcha_length = 3
@@ -61,6 +61,7 @@ class Player(BasePlayer):
     num_correct = models.IntegerField(initial=0)
     num_failed = models.IntegerField(initial=0)
     num_g_correct = models.IntegerField(initial=0)
+    potential_payoff = models.CurrencyField()
 
 # puzzle-specific stuff
 
@@ -255,6 +256,24 @@ class Game(Page):
         return dict(DEBUG=settings.DEBUG,
                     input_type=task_module.INPUT_TYPE,
                     placeholder=task_module.INPUT_HINT)
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        import random
+
+        participant = player.participant
+
+        # if it's the last round
+        if player.round_number == Constants.num_rounds:
+            random_round = random.randint(1, Constants.num_rounds)
+            participant.selected_round = random_round
+            player_in_selected_round = player.in_round(random_round)
+            if player_in_selected_round.num_g_correct > 19:
+                player.potential_payoff = 15
+            else:
+                player.potential_payoff = 0
+            potential_payoff = player.potential_payoff
+            # __name__ is a magic variable that contains the name of the current app
+            participant.app_payoffs[__name__] = potential_payoff
 
 class ResultsWaitPage(WaitPage):
     @staticmethod

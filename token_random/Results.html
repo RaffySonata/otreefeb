@@ -1,14 +1,21 @@
 {{ block title }}
-    Page title
+    Hasil Pembayaran Tiap Blok
 {{ endblock }}
-
-{% block content %}
-    You entered the number {{ player.number_entered }},
-    the factor was {{ Constants.factor }},
-    the result was {{ result }}
-
-
-    {{ next_button }}
-{% endblock %}
-
-
+{{ block content }}
+    <p>
+        BLOK Individu <br>
+        Pada blok ini secara acak Anda mendapatkan pembayaran berdasarkan hasil dari aktivitas {{ player.app_to_pay1 }}. <br>
+        Hasil dari aktifitas tersebut dan pembayaran Anda untuk blok ini adalah sebesar {{ player.payoff1 }} x 1500 = Rp. {{ player.convert }}<br>
+        <br>
+        BLOK Kelompok 2 <br>
+        Pada blok ini secara acak Anda mendapatkan pembayaran berdasarkan hasil dari aktivitas {{ player.app_to_pay2 }}. <br>
+        Hasil dari aktifitas tersebut dan pembayaran Anda untuk blok ini adalah sebesar {{ player.payoff2 }} x 1500 = Rp. {{ player.convert2 }} <br>
+        <br>
+        BLOK Kelompok 4 <br>
+        Pada blok ini secara acak Anda mendapatkan pembayaran berdasarkan hasil dari aktivitas {{ player.app_to_pay3 }}. <br>
+        Hasil dari aktifitas tersebut dan pembayaran Anda untuk blok ini adalah sebesar {{ player.payoff3 }} x 1500 = Rp. {{ player.convert3 }} <br>
+        <br>
+        Total pembayaran Anda adalah: <br>
+        Uang Kehadiran + BLOK Individu + BLOK Kelompok 2 + BLOK Kelompok 4 sebesar Rp. {{ player.convert4 }}
+    </p>
+{{ endblock }}
