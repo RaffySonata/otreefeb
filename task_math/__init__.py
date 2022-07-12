@@ -53,9 +53,7 @@ def creating_session(subsession: Subsession):
     session.params = {}
     for param in template:
         session.params[param] = session.config.get(param, template[param])
-    for p in subsession.get_players():
-        # initialize an empty dict to store how much they made in each app
-        p.participant.app_payoffs = {}
+
 
 class Group(BaseGroup):
     pass
@@ -255,25 +253,6 @@ class Game(Page):
         return dict(DEBUG=settings.DEBUG,
                     input_type=task_module.INPUT_TYPE,
                     placeholder=task_module.INPUT_HINT)
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        import random
-
-        participant = player.participant
-
-        # if it's the last round
-        if player.round_number == Constants.num_rounds:
-            random_round = random.randint(1, Constants.num_rounds)
-            participant.selected_round = random_round
-            player_in_selected_round = player.in_round(random_round)
-            if player_in_selected_round.num_correct > 9:
-                player.potential_payoff = 10
-            else:
-                player.potential_payoff = 0
-            potential_payoff = player.potential_payoff
-            # __name__ is a magic variable that contains the name of the current app
-            participant.app_payoffs[__name__] = potential_payoff
 
 
 class Results(Page):
