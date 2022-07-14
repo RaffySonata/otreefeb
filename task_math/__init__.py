@@ -46,6 +46,9 @@ class Subsession(BaseSubsession):
 
 
 def creating_session(subsession: Subsession):
+    for p in subsession.get_players():
+        # initialize an empty dict to store how much they made in each app
+        p.participant.app_payoffs = {}
     session = subsession.session
     template = dict(
         retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=1, max_iterations=None, max_math=10, max_math2=20, max_math4=40, max_decoding=5, max_decoding2=10, max_decoding4=20,
@@ -64,8 +67,11 @@ class Player(BasePlayer):
     num_trials = models.IntegerField(initial=0)
     num_correct = models.IntegerField(initial=0)
     num_failed = models.IntegerField(initial=0)
+    potential_payoff = models.CurrencyField(initial=0)
 
 # puzzle-specific stuff
+
+
 class Puzzle(ExtraModel):
     """A model to keep record of all generated puzzles"""
 
@@ -249,6 +255,24 @@ class Game(Page):
                     input_type=task_module.INPUT_TYPE,
                     placeholder=task_module.INPUT_HINT)
 
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        import random
+
+        participant = player.participant
+
+        # if it's the last round
+        if player.round_number == Constants.num_rounds:
+            random_round = random.randint(1, Constants.num_rounds)
+            participant.selected_round = random_round
+            player_in_selected_round = player.in_round(random_round)
+            if player_in_selected_round.num_correct > 9:
+                player.potential_payoff = 10
+            else:
+                player.potential_payoff = 0
+            potential_payoff = player.potential_payoff
+            # __name__ is a magic variable that contains the name of the current app
+            participant.app_payoffs[__name__] = potential_payoff
 
 
 class Results(Page):
