@@ -258,7 +258,7 @@ class Game(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         import random
-
+        player.potential_payoff = 0
         participant = player.participant
 
         # if it's the last round
@@ -267,9 +267,9 @@ class Game(Page):
             participant.selected_round = random_round
             player_in_selected_round = player.in_round(random_round)
             if player_in_selected_round.num_correct > 9:
-                player.potential_payoff = 10
+                player.potential_payoff += 10
             else:
-                player.potential_payoff = 0
+                player.potential_payoff += 0
             potential_payoff = player.potential_payoff
             # __name__ is a magic variable that contains the name of the current app
             participant.app_payoffs[__name__] = potential_payoff
