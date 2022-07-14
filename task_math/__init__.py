@@ -64,12 +64,8 @@ class Player(BasePlayer):
     num_trials = models.IntegerField(initial=0)
     num_correct = models.IntegerField(initial=0)
     num_failed = models.IntegerField(initial=0)
-    timeSpent = models.FloatField()
-
 
 # puzzle-specific stuff
-
-
 class Puzzle(ExtraModel):
     """A model to keep record of all generated puzzles"""
 
