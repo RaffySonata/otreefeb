@@ -67,7 +67,7 @@ class Player(BasePlayer):
     num_trials = models.IntegerField(initial=0)
     num_correct = models.IntegerField(initial=0)
     num_failed = models.IntegerField(initial=0)
-    potential_payoff = models.CurrencyField(initial=0)
+    potential_payoff = models.FloatField(initial=0)
 
 # puzzle-specific stuff
 
