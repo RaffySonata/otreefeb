@@ -257,24 +257,6 @@ class Game(Page):
                     input_type=task_module.INPUT_TYPE,
                     placeholder=task_module.INPUT_HINT)
 
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        import random
-
-        participant = player.participant
-
-        # if it's the last round
-        if player.round_number == Constants.num_rounds:
-            random_round = random.randint(1, Constants.num_rounds)
-            participant.selected_round = random_round
-            player_in_selected_round = player.in_round(random_round)
-            if player_in_selected_round.num_correct > 9:
-                player.potential_payoff = 10
-            else:
-                player.potential_payoff = 0
-            potential_payoff = player.potential_payoff
-            # __name__ is a magic variable that contains the name of the current app
-            
 
 
 class Results(Page):
