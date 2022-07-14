@@ -219,6 +219,7 @@ def play_game(player: Player, message: dict):
         current.is_correct = task_module.is_correct(answer, current)
         current.response_timestamp = now
         current.attempts += 1
+        player.potential_payoff = 0
 
         # update player progress
         if current.is_correct:
@@ -258,7 +259,6 @@ class Game(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         import random
-        player.potential_payoff = 0
         participant = player.participant
 
         # if it's the last round
