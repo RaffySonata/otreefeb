@@ -67,7 +67,7 @@ class Player(BasePlayer):
     num_trials = models.IntegerField(initial=0)
     num_correct = models.IntegerField(initial=0)
     num_failed = models.IntegerField(initial=0)
-    potential_payoff1 = models.CurrencyField()
+    potential_payoff = models.CurrencyField()
     timeSpent = models.FloatField()
 
 
@@ -269,12 +269,12 @@ class Game(Page):
             participant.selected_round = random_round
             player_in_selected_round = player.in_round(random_round)
             if player_in_selected_round.num_correct > 9:
-                player.potential_payoff1 = 10
+                player.potential_payoff = 10
             else:
-                player.potential_payoff1 = 0
-            potential_payoff1 = player.potential_payoff1
+                player.potential_payoff = 0
+            potential_payoff = player.potential_payoff
             # __name__ is a magic variable that contains the name of the current app
-            participant.app_payoffs[__name__] = potential_payoff1
+            
 
 
 class Results(Page):
