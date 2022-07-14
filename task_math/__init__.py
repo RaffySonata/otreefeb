@@ -46,9 +46,6 @@ class Subsession(BaseSubsession):
 
 
 def creating_session(subsession: Subsession):
-    for p in subsession.get_players():
-        # initialize an empty dict to store how much they made in each app
-        p.participant.app_payoffs = {}
     session = subsession.session
     template = dict(
         retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=1, max_iterations=None, max_math=10, max_math2=20, max_math4=40, max_decoding=5, max_decoding2=10, max_decoding4=20,
@@ -67,7 +64,6 @@ class Player(BasePlayer):
     num_trials = models.IntegerField(initial=0)
     num_correct = models.IntegerField(initial=0)
     num_failed = models.IntegerField(initial=0)
-    potential_payoff = models.CurrencyField()
     timeSpent = models.FloatField()
 
 
