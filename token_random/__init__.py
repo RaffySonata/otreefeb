@@ -91,4 +91,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [PayRandomApp, Results]
+page_sequence = [PayRandomApp, Results, MyPage]

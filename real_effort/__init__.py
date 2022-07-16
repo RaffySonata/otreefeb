@@ -33,7 +33,7 @@ def get_task_module(player):
 class Constants(BaseConstants):
     name_in_url = "transcription"
     players_per_group = None
-    num_rounds = 1
+    num_rounds = 10
     ENDOWMENT = cu(100)
     instructions_template = __name__ + "/instructions.html"
     captcha_length = 3
