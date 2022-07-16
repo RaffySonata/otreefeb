@@ -43,13 +43,36 @@ class Subsession(BaseSubsession):
     pass
 
 def creating_session(subsession: Subsession):
+    for p in subsession.get_players():
+        # initialize an empty dict to store how much they made in each app
+        p.participant.app_payoffs = {}
     session = subsession.session
+    session.past_groups = []
     template = dict(
         retry_delay=1.0, puzzle_delay=0, attempts_per_puzzle=1, max_iterations=None, max_math=10, max_math2=20, max_math4=40, max_decoding=5, max_decoding2=10, max_decoding4=20,
     )
     session.params = {}
     for param in template:
         session.params[param] = session.config.get(param, template[param])
+
+def group_by_arrival_time_method(subsession: Subsession, waiting_players):
+    session = subsession.session
+
+    import itertools
+
+    # this generates all possible pairs of waiting players
+    # and checks if the group would be valid.
+    for possible_group in itertools.combinations(waiting_players, 2):
+        # use a set, so that we can easily compare even if order is different
+        # e.g. {1, 2} == {2, 1}
+        pair_ids = set(p.id_in_subsession for p in possible_group)
+        # if this pair of players has not already been played
+        #if pair_ids not in session.past_groups:
+            # mark this group as used, so we don't repeat it in the next round.
+            #session.past_groups.append(pair_ids)
+            # in this function,
+            # 'return' means we are creating a new group with this selected pair
+        return possible_group
 
 class Group(BaseGroup):
     num_correct = models.IntegerField(initial=0)
@@ -255,7 +278,8 @@ class Game(Page):
         task_module = get_task_module(player)
         return dict(DEBUG=settings.DEBUG,
                     input_type=task_module.INPUT_TYPE,
-                    placeholder=task_module.INPUT_HINT)
+                    placeholder=task_module.INPUT_HINT,
+                    partner=player.get_others_in_group()[0])
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -283,7 +307,8 @@ class ResultsWaitPage(WaitPage):
         group.num_correct = sum([p.num_correct for p in players])
 
 class WaitPage1(WaitPage):
-    pass
+    group_by_arrival_time = True
+    body_text = "Harap menunggu pasangan main Anda"
 
 class Results(Page):
     pass

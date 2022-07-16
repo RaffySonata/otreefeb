@@ -11,7 +11,7 @@ SESSION_CONFIGS = [
     dict(
         name="task_math2",
         display_name="Math 2 players",
-        num_demo_participants=2,
+        num_demo_participants=12,
         app_sequence=["task_math2"],
     ),
     dict(
@@ -29,7 +29,7 @@ SESSION_CONFIGS = [
     dict(
         name="real_effort2",
         display_name="Decoding 2 Players",
-        num_demo_participants=2,
+        num_demo_participants=4,
         app_sequence=["real_effort2"],
     ),
     dict(
@@ -88,7 +88,13 @@ PARTICIPANT_FIELDS = ['is_dropout',
                       'time_pressure',
                       'wait_page_arrival',
                       ]
-SESSION_FIELDS = ['params']
+SESSION_FIELDS = ['params',
+                  'completions_by_treatment',
+                  'past_groups',
+                  'matrices',
+                  'wait_for_ids',
+                  'arrived_ids',
+                  ]
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
