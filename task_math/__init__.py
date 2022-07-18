@@ -16,16 +16,10 @@ def get_task_module(player):
     This function is only needed for demo mode, to demonstrate all the different versions.
     You can simplify it if you want.
     """
-    from . import task_matrix, task_transcription, task_decoding, task_math
+    from . import task_math
 
     session = player.session
     task = session.config.get("task")
-    if task == "matrix":
-        return task_matrix
-    if task == "transcription":
-        return task_transcription
-    if task == "decoding":
-        return task_decoding
     if task == "math":
         return task_math
     # default
@@ -35,7 +29,7 @@ def get_task_module(player):
 class Constants(BaseConstants):
     name_in_url = "transcription_copy"
     players_per_group = None
-    num_rounds = 10
+    num_rounds = 1
 
     instructions_template = __name__ + "/instructions.html"
     captcha_length = 3
